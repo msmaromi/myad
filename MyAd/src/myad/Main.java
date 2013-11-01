@@ -17,23 +17,15 @@ public class Main {
   /**
    * @param args the command line arguments
    */
-  public static void main(String[] args) throws Exception {
-    SwingUtilities.invokeLater(new Runnable() {
+  public static void main(String[] args) throws Exception
+  {
+    SwingUtilities.invokeLater(new Runnable()
+    {
       @Override
-      public void run() {
-          View v;
-        try {
-          v = new View();
-                  v.setVisible(true);
-        } catch (Exception ex) {
-          Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      public void run() 
+      {
           
       }
     });
-//    XMLReader rd = new XMLReader("ad.xml");
-//    for (int i = 0; i < rd.contentSize(); i++) {
-//      System.out.println(rd.getValue(rd.getKey(i)));
-//    }
   }
 }
