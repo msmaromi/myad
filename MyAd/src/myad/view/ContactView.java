@@ -11,6 +11,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.*;
+import javax.swing.UnsupportedLookAndFeelException;
 import myad.model.CommunicationChannel.Phone;
 import myad.model.Contact;
 
@@ -32,6 +35,21 @@ public class ContactView extends javax.swing.JFrame {
     public ContactView(Contact con) {
 //        get Contact abstraction
         contact = con;
+        
+//        set nimbus look and feel
+        try {
+            for(LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
+            {
+                System.out.println("nama laf: "+info.getName());
+                if("Nimbus".equals(info.getName()))
+                {
+                    System.out.println("nimbux");
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        }
         
         initComponents();
         
@@ -110,6 +128,7 @@ public class ContactView extends javax.swing.JFrame {
                 .addComponent(phoneDetails));
         layout.setVerticalGroup(vGroup);
         
+//        put these altogether to the frame
         this.pack();
     }
     
