@@ -14,7 +14,7 @@ import myad.model.CommunicationChannel.PhysicalAddress;
 public class Contact {
     private String role;
     private String name;
-    private Phone phone;
+    private Phone[] phone;
     private PhysicalAddress address;
 
     public String getRole() {
@@ -33,11 +33,11 @@ public class Contact {
         this.name = name;
     }
 
-    public Phone getPhone() {
+    public Phone[] getPhone() {
         return phone;
     }
 
-    public void setPhone(Phone phone) {
+    public void setPhone(Phone[] phone) {
         this.phone = phone;
     }
 
@@ -49,7 +49,22 @@ public class Contact {
         this.address = address;
     }
     
-    public Contact(String role, String name, Phone phone, PhysicalAddress address) {
+    public int getFirstPhoneIndex()
+    {
+        int maxP = getPhone()[0].getPriority();
+        int idx = 0;
+        for(int i = 0; i<getPhone().length; i++)
+        {
+            if(getPhone()[i].getPriority()<maxP)
+            {
+                idx = i;
+                maxP = getPhone()[i].getPriority();
+            }
+        }
+        return idx;
+    }
+    
+    public Contact(String role, String name, Phone[] phone, PhysicalAddress address) {
         this.role = role;
         this.name = name;
         this.phone = phone;

@@ -13,6 +13,15 @@ public class Phone {
     private String phoneNumber;
     private String areaCode;
     private String subscriberNo;
+    private int priority;
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
     public String getType() {
         return type;

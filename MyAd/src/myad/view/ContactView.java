@@ -4,9 +4,14 @@
  */
 package myad.view;
 
-import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.GroupLayout;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import myad.model.CommunicationChannel.Phone;
 import myad.model.Contact;
 
 /**
@@ -16,6 +21,10 @@ import myad.model.Contact;
 public class ContactView extends javax.swing.JFrame {
 
     private Contact contact;
+    JLabel nameL;
+    JLabel roleL;
+    javax.swing.JComboBox<String> phoneType;
+    JTextArea phoneDetails;
     
     /**
      * Creates new form ContactView
@@ -27,20 +36,99 @@ public class ContactView extends javax.swing.JFrame {
         initComponents();
         
         this.setTitle("M.Y.A.D");
+
+//        layout configuration
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         
-//        set container stack
-        JPanel contentPane = new JPanel(new BorderLayout(), true);
-        this.setContentPane(contentPane);
+        layout.setAutoCreateContainerGaps(true);
+        layout.setAutoCreateGaps(true);
         
-//        left pane
+//        components definition
+        nameL = new JLabel(contact.getName());
+        roleL = new JLabel(contact.getRole());
         
-        JLabel nameL = new JLabel(contact.getName());
+//        susun string address
+        StringBuilder addrBuilder = new StringBuilder();
+        addrBuilder.append("Street: ").append(contact.getAddress().getStreet()).append("\n");
+        addrBuilder.append("Zip Postal Code: ").append(contact.getAddress().getZipPostalCode()).append("\n");
+        addrBuilder.append("City: ").append(contact.getAddress().getCity()).append("\n");
+        addrBuilder.append("State Province: ").append(contact.getAddress().getStateProvince()).append("\n");
+        addrBuilder.append("Country Name: ").append(contact.getAddress().getCountryName()).append("\n");
+        JTextArea addressL =  new JTextArea(addrBuilder.toString());
         
+//        isi pilihan phone type
+        String[] phoneTypeArr = new String[contact.getPhone().length];
+        for(int i = 0; i<contact.getPhone().length; i++)
+        {
+            phoneTypeArr[i] = contact.getPhone()[i].getType();
+        }
+        phoneType = new JComboBox<>(phoneTypeArr);
+        
+//        cari selected item - priority 1
+        int firstPhoneIdx =  contact.getFirstPhoneIndex();
+        phoneType.setSelectedIndex(firstPhoneIdx);
+        
+//        mengisi section phone details
+        phoneDetails = new JTextArea();
+        this.setPhoneDetails(firstPhoneIdx);
+        
+//        set ActionListener to ComboBox
+        phoneType.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox combo = (JComboBox) e.getSource();
+                int idx = combo.getSelectedIndex();
+                
+                ContactView.this.setPhoneDetails(idx);
+            }
+        });
+        
+//        insert components to layout
+        GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+        hGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(nameL)
+                .addComponent(roleL)
+                .addComponent(addressL));
+        hGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(phoneType)
+                .addComponent(phoneDetails));
+        layout.setHorizontalGroup(hGroup);
+        
+//        menyamakan ukuran label
+        layout.linkSize(SwingConstants.HORIZONTAL, nameL, roleL);
+        
+        GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(roleL)
+                .addComponent(phoneType));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(nameL));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(addressL)
+                .addComponent(phoneDetails));
+        layout.setVerticalGroup(vGroup);
+        
+        this.pack();
+    }
+    
+    private void setPhoneDetails(int idx)
+    {
+        Phone selPhone = contact.getPhone()[idx];
+        
+        StringBuilder phoneStrBuilder = new StringBuilder();
+        phoneStrBuilder.append("Type: ").append(selPhone.getType()).append("\n");
+        phoneStrBuilder.append("Phone Number: ").append(selPhone.getPhoneNumber()).append("\n");
+        phoneStrBuilder.append("Area Code: ").append(selPhone.getAreaCode()).append("\n");
+        phoneStrBuilder.append("Subscriber No: ").append(selPhone.getSubscriberNo()).append("\n");
+        
+        this.phoneDetails.setText(phoneStrBuilder.toString());
     }
 
     /**
      * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
+     * WARNING: Do NOT modify this code. The pane of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
@@ -48,16 +136,17 @@ public class ContactView extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 599, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 512, Short.MAX_VALUE)
         );
 
         pack();
