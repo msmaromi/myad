@@ -4,6 +4,8 @@
  */
 package myad.view;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
@@ -63,8 +65,15 @@ public class ContactView extends javax.swing.JFrame {
         layout.setAutoCreateGaps(true);
         
 //        components definition
-        nameL = new JLabel(contact.getName());
+        nameL = new JLabel(contact.getName(),SwingConstants.CENTER);
         roleL = new JLabel(contact.getRole());
+        
+//        custom font
+        Font newFont = new Font(nameL.getName(), Font.ITALIC, nameL.getFont().getSize());
+        
+//        change name + role font
+        nameL.setFont(newFont);
+        roleL.setFont(newFont);
         
 //        susun string address
         StringBuilder addrBuilder = new StringBuilder();
@@ -74,6 +83,8 @@ public class ContactView extends javax.swing.JFrame {
         addrBuilder.append("State Province: ").append(contact.getAddress().getStateProvince()).append("\n");
         addrBuilder.append("Country Name: ").append(contact.getAddress().getCountryName()).append("\n");
         JTextArea addressL =  new JTextArea(addrBuilder.toString());
+        addressL.setEditable(false);
+        addressL.setBackground(new Color(253, 253, 193));
         
 //        isi pilihan phone type
         String[] phoneTypeArr = new String[contact.getPhone().length];
@@ -89,6 +100,7 @@ public class ContactView extends javax.swing.JFrame {
         
 //        mengisi section phone details
         phoneDetails = new JTextArea();
+        phoneDetails.setBackground(new Color(253, 253, 193));
         this.setPhoneDetails(firstPhoneIdx);
         
 //        set ActionListener to ComboBox
@@ -143,6 +155,7 @@ public class ContactView extends javax.swing.JFrame {
         phoneStrBuilder.append("Subscriber No: ").append(selPhone.getSubscriberNo()).append("\n");
         
         this.phoneDetails.setText(phoneStrBuilder.toString());
+        this.phoneDetails.setEditable(false);
     }
 
     /**
