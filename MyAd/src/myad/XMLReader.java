@@ -52,40 +52,36 @@ public class XMLReader {
     Node an, an2;
     boolean rolePass = false;
     boolean namePass = false;
-    boolean phone1Pass = false;
-    boolean phone2Pass = false;
+    boolean phonePass = false;
     boolean addressPass = false;
+    int prioPhone = 1;
     for (int i = 0; i < nl.getLength(); i++) {                  
       an = nl.item(i);      
-      if(an.getNodeType()==Node.ELEMENT_NODE) {                
+      if(an.getNodeType()==Node.ELEMENT_NODE) {           
         NodeList nl2 = an.getChildNodes();
+        if (filterAdsml(an.getNodeName()).toLowerCase().equals("communicationchannel.physicaladdress")) {
+          phonePass = true;
+        }
         if (!rolePass) {
           con.role = an.getFirstChild().getNodeValue();
           rolePass = true;          
         } else if (!namePass) {
           con.name = an.getFirstChild().getNodeValue();
           namePass = true;
-        } else if (!phone1Pass) {
+        } else if (!phonePass) {
           HashMap<String, String> map = new HashMap<String, String>();
           for(int i2=0; i2<nl2.getLength(); i2++) {
             an2 = nl2.item(i2);
             if (an2.getNodeType()==Node.ELEMENT_NODE) {
+              
               map.put(filterAdsml(an2.getNodeName()).toLowerCase(), an2.getFirstChild().getNodeValue());              
+              
             }                                          
           }
-          con.comChannelPhone.put("phone1", map);
-          phone1Pass = true;          
-          
-        } else if (!phone2Pass) {
-          HashMap<String, String> map = new HashMap<>();
-          for(int i2=0; i2<nl2.getLength(); i2++) {
-            an2 = nl2.item(i2);
-            if (an2.getNodeType()==Node.ELEMENT_NODE) {              
-              map.put(filterAdsml(an2.getNodeName()).toLowerCase(), an2.getFirstChild().getNodeValue());                  
-            }            
-          }
-          con.comChannelPhone.put("phone2", map);
-          phone2Pass = true;
+          String prio = "phone" + prioPhone;
+          con.comChannelPhone.put(prio, map);
+          System.out.println(prioPhone);          
+          prioPhone++;
         } else if (!addressPass) {
           HashMap<String, String> map = new HashMap<>();
           for(int i2=0; i2<nl2.getLength(); i2++) {
@@ -122,6 +118,9 @@ public class XMLReader {
     return con.comChannelAddress.get(attr.toLowerCase());
   }
 
+  public int getPhoneTypes() {
+    return con.comChannelPhone.size();
+  }
 //  public String getValue(String tag) {
 //    return content.get(tag);
 //  }   
