@@ -17,8 +17,6 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.*;
 import javax.swing.UnsupportedLookAndFeelException;
 import myad.XMLReader;
-import myad.model.CommunicationChannel.Phone;
-import myad.model.Contact;
 
 /**
  *
@@ -26,7 +24,6 @@ import myad.model.Contact;
  */
 public class ContactView extends javax.swing.JFrame {
 
-    private Contact contact;
     JLabel nameL;
     JLabel roleL;
     javax.swing.JComboBox<String> phoneType;
@@ -36,10 +33,7 @@ public class ContactView extends javax.swing.JFrame {
     /**
      * Creates new form ContactView
      */
-    public ContactView(Contact con) throws Exception {
-//        get Contact abstraction
-        contact = con;
-        
+    public ContactView(String path) throws Exception {     
 //        set nimbus look and feel
         try {
             for(LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
@@ -67,7 +61,7 @@ public class ContactView extends javax.swing.JFrame {
         layout.setAutoCreateGaps(true);
         
         //baca file xml
-        rd = new XMLReader("my.xml");
+        rd = new XMLReader(path);
 //        System.out.println(rd.Phone(1, "type"));
 //        System.out.println(rd.getName());
         
@@ -154,9 +148,7 @@ public class ContactView extends javax.swing.JFrame {
     }
     
     private void setPhoneDetails(int idx)
-    {
-        Phone selPhone = contact.getPhone()[idx];
-        
+    {        
         StringBuilder phoneStrBuilder = new StringBuilder();
         phoneStrBuilder.append("Type: ").append(rd.Phone(idx+1, "type")).append("\n");
         phoneStrBuilder.append("Phone Number: ").append(rd.Phone(idx+1, "phonenumber")).append("\n");

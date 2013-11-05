@@ -5,6 +5,8 @@
 package myad.view;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import myad.model.MyCustomFilter;
 
@@ -91,6 +93,12 @@ public class FileChooser extends javax.swing.JFrame {
         {
             File file = fileChooser.getSelectedFile();
             System.out.println("Absolute path: "+file.getAbsolutePath());
+            
+            try {
+                new ContactView(file.getAbsolutePath()).setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(FileChooser.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
