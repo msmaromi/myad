@@ -6,6 +6,7 @@ package myad.view;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import myad.model.MyCustomFilter;
 
 /**
  *
@@ -38,6 +39,7 @@ public class FileChooser extends javax.swing.JFrame {
         Exit = new javax.swing.JMenuItem();
 
         fileChooser.setDialogTitle("M.Y.A.D Open Dialog");
+        fileChooser.setFileFilter(new MyCustomFilter());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("M.Y.A.D | File Chooser");
