@@ -8,6 +8,7 @@ import myad.model.CommunicationChannel.Phone;
 import myad.model.CommunicationChannel.PhysicalAddress;
 import myad.model.Contact;
 import myad.view.ContactView;
+import myad.view.FileChooser;
 
 /**
  *
@@ -49,6 +50,7 @@ public class Main {
       Contact contact = new Contact(role, name, phoneArr, phy);
       ContactView contactView = new ContactView(contact);
       
-      contactView.setVisible(true);
+//      contactView.setVisible(true);
+      new FileChooser().setVisible(true);
   }
 }

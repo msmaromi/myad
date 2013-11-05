@@ -6,7 +6,6 @@ package myad;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
@@ -29,8 +28,8 @@ public class XMLReader {
     private HashMap<String, String> comChannelAddress;            
     
     public Contact() {
-      comChannelPhone = new HashMap< String, HashMap<String, String> >();
-      comChannelAddress = new HashMap<String, String>();
+      comChannelPhone = new HashMap<>();
+      comChannelAddress = new HashMap<>();
     }
     
           
